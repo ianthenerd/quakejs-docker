@@ -19,9 +19,6 @@ jobs:
       with:
         app-id: ${{ vars.APP_ID }}
         private-key: ${{ secrets.APP_PRIVATE_KEY }}
-    - name: Use the token
-      env:
-        GH_TOKEN: ${{ steps.generate-token.outputs.token }}
     - uses: actions/checkout@v3
     - name: Get versions
       id: version
@@ -39,6 +36,8 @@ jobs:
         password: ${{ secrets.DOCKER_KEY }}
     - name: GitHub Container Registry
       uses: docker/login-action@v2.0.0
+      env:
+        GH_TOKEN: ${{ steps.generate-token.outputs.token }}
       with:
          registry: ghcr.io
          username: ${{ github.repository_owner }}
